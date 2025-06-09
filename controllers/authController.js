@@ -70,7 +70,9 @@ exports.updateProfileImage = async (req, res) => {
       return res.status(400).json({ msg: 'No image file uploaded' });
     }
 
-    const imageUrl = `${process.env.REACT_APP_BACKEND_URL}/uploads/${req.file.filename}`;
+    // const imageUrl = `${process.env.REACT_APP_BACKEND_URL}/uploads/${req.file.filename}`;
+    const imageUrl = `https://workease-backend.onrender.com/uploads/${req.file.filename}`;
+
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
