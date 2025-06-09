@@ -9,7 +9,7 @@ exports.register = async (req, res) => {
 
   const { name, email, password } = req.body;
 
-   const profileImage = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : '';
+   const profileImage = req.file ? `${process.env.REACT_APP_BACKEND_URL}/uploads/${req.file.filename}` : '';
 
   try {
     const existingUser = await User.findOne({ email });
