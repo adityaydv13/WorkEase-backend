@@ -14,7 +14,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use(cors({
-  origin:  '*', // Your deployed React frontend
+  // origin:  '*', // Your deployed React frontend
+  origin: ['http://localhost:3000', 'https://work-ease-five.vercel.app'],
   credentials: true
 }));
 
