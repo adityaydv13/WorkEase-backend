@@ -5,6 +5,8 @@ const router = require('../routes/categoryRoutes');
 // const nodemailer = require('nodemailer');
 
 exports.register = async (req, res) => {
+  
+
   const { name, email, password } = req.body;
 
    const profileImage = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : '';
