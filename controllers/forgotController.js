@@ -7,7 +7,7 @@ require('dotenv').config();
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
   // const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
-    const FRONTEND_URL = process.env.FRONTEND_URL ;
+    const CLIENT_URL = process.env.REACT_APP_BACKEND_URL ;
 
 
   try {
@@ -27,9 +27,9 @@ exports.forgotPassword = async (req, res) => {
         pass: process.env.EMAIL_PASS,
       },
     });
-
-    const link = `${FRONTEND_URL}/reset-password/${token}`;
-
+    // console.log('Email User:', process.env.FRONTEND_URL);
+    const link = `${CLIENT_URL}/reset-password/${token}`;
+         
     await transporter.sendMail({
       from: 'no-reply@workora.com',
       to: user.email,
