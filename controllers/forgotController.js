@@ -6,8 +6,8 @@ require('dotenv').config();
 
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
-  // const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
-    const CLIENT_URL = process.env.REACT_APP_BACKEND_URL ;
+  const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
+    // const CLIENT_URL = process.env.REACT_APP_BACKEND_URL ;
 
 
   try {
