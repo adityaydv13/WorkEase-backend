@@ -22,6 +22,8 @@ app.use(cors({
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+
+  //  maxPoolSize: 20,
 })
 .then(() => console.log('MongoDB connected'))
 .catch((err) => console.error('MongoDB connection error:', err));
@@ -57,6 +59,7 @@ app.use('/api/users', require('./routes/authRoutes')); // mounted only once
 
 // upload profile 
 const path = require('path');
+const { request } = require('http');
 //  this will work for update of profile image also 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -69,6 +72,11 @@ app.use('/send-query', require('./routes/authRoutes')); // mounted only once
 
 app.use('/api/worker', require('./routes/myworker')); // mounted only once
 
+
+// for worker request  
+
+app.use('/api', require('./routes/hireRoutes')); // mounted only once
+// app.use('/api', require('./routes/')); // mounted only once
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -15,7 +15,9 @@ const Worker = require('../models/worker');
         });
 
         await newWorker.save();
-        res.status(201).json({ msg: 'Worker registered successfully' });
+        res.status(201).json({ msg: 'Worker registered successfully' ,
+          worker: newWorker 
+        });
     } catch (error) {
         console.error('Error registering worker:', error);
         return res.status(500).json({ message: 'Internal server error' });

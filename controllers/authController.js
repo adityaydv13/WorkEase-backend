@@ -32,27 +32,59 @@ exports.register = async (req, res) => {
   }
 };
 
+// exports.login = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     // const user = await User.findOne({ email });
+//     const user = await User.findOne({ email }).select('+password name email profileImage').lean();
+//     if (!user) return res.status(400).json({ msg: 'Invalid credentials or User does not exist' });
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials ' });
+
+//     delete user.password;
+
+
+//     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+//     res.json({ token, user });
+//   } catch (error) {
+//     console.error('Error logging in user:', error);
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 exports.login = async (req, res) => {
   const { email, password } = req.body;
+  console.time('Login');
 
   try {
-    // const user = await User.findOne({ email });
+    console.time('DB Fetch');
     const user = await User.findOne({ email }).select('+password name email profileImage').lean();
+    console.timeEnd('DB Fetch');
+
     if (!user) return res.status(400).json({ msg: 'Invalid credentials or User does not exist' });
 
+    console.time('Password Compare');
     const isMatch = await bcrypt.compare(password, user.password);
+    console.timeEnd('Password Compare');
+
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials ' });
 
     delete user.password;
 
-
+    console.time('Token Gen');
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    console.timeEnd('Token Gen');
+
+    console.timeEnd('Login');
     res.json({ token, user });
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 // user deletion 
 
@@ -81,7 +113,7 @@ exports.updateProfileImage = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { profileImage: imageUrl },
-      { new: true }
+       { new: true }
     );
 
     if (!updatedUser) {

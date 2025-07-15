@@ -37,28 +37,64 @@ exports.hireWorker = async (req, res) => {
             return res.status(404).json({ message: 'Worker not found' });
         }
 
-        // if (worker.availability !== '2') {
-        //     return res.status(400).json({ message: 'Worker is not available' });
-        // }
+        // Prevent duplicate pending request
+        const existingRequest = await Hire.findOne({ workerId, userId, status: 'pending' });
+        if (existingRequest) {
+            return res.status(400).json({ message: 'Hire request already sent and pending' });
+        }
 
-        worker.status = 'hired';
-        if (!worker.userId) worker.userId = userId;
-        await worker.save();
-
+        // Don't mark as hired yet!
         const hire = new Hire({
             workerId,
-            status: 'pending',
             userId,
+            status: 'pending',
         });
 
         await hire.save();
 
-        res.status(200).json({ message: 'Worker hired successfully', hire });
+        res.status(200).json({ message: 'Hire request sent successfully', hire });
     } catch (err) {
-        console.error('Error hiring worker:', err);
-        res.status(500).json({ message: 'Error hiring worker', error: err.message });
+        console.error('Error sending hire request:', err);
+        res.status(500).json({ message: 'Error sending hire request', error: err.message });
     }
 };
+// exports.hireWorker = async (req, res) => {
+//     const { workerId } = req.params;
+//     const userId = req.user?.id;
+
+//     if (!userId) {
+//         return res.status(401).json({ message: 'Unauthorized: User ID missing' });
+//     }
+
+//     try {
+//         const worker = await Worker.findById(workerId);
+//         if (!worker) {
+//             return res.status(404).json({ message: 'Worker not found' });
+//         }
+
+//         // if (worker.availability !== '2') {
+//         //     return res.status(400).json({ message: 'Worker is not available' });
+//         // }
+
+//         worker.status = 'hired';
+//         if (!worker.userId) worker.userId = userId;
+//         await worker.save();
+
+//         const hire = new Hire({
+//             workerId,
+//             status: 'pending',
+//             userId,
+//         });
+
+//         await hire.save();
+
+//         res.status(200).json({ message: 'Worker hired successfully', hire });
+//     } catch (err) {
+//         console.error('Error hiring worker:', err);
+//         res.status(500).json({ message: 'Error hiring worker', error: err.message });
+//     }
+// };
+
 
 
 
