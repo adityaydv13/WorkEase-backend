@@ -77,6 +77,25 @@ app.use('/api/worker', require('./routes/myworker')); // mounted only once
 
 app.use('/api', require('./routes/hireRoutes')); // mounted only once
 // app.use('/api', require('./routes/')); // mounted only once
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 10000, // optional safeguard
+})
+.then(() => {
+  console.log('MongoDB connected');
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+})
+.catch((err) => {
+  console.error('MongoDB connection error:', err);
 });
+
+
+
+
+ 

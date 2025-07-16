@@ -59,7 +59,7 @@ exports.login = async (req, res) => {
 
   try {
     console.time('DB Fetch');
-    const user = await User.findOne({ email }).select('+password name email profileImage').lean();
+    const user = await User.findOne({ email }).select('+password name email profileImage');
     console.timeEnd('DB Fetch');
 
     if (!user) return res.status(400).json({ msg: 'Invalid credentials or User does not exist' });
