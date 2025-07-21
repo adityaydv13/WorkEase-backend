@@ -1,7 +1,7 @@
 const Worker = require('../models/worker');
 
  exports.workerRegister = async (req, res) => {
-    const { name, phone, address, workertype, availability,status } = req.body;
+    const { name, phone, address, workertype, availability,status,latitude, longitude } = req.body;
       const userId = req.user.id; 
     try {
         const newWorker = new Worker({
@@ -11,7 +11,13 @@ const Worker = require('../models/worker');
             address,
             workertype,
             availability,
-            status  
+            status,
+
+             location: {
+        type: 'Point',
+        coordinates: [parseFloat(longitude), parseFloat(latitude)],
+      },
+            
         });
 
         await newWorker.save();

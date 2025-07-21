@@ -76,6 +76,12 @@ app.use('/api/worker', require('./routes/myworker')); // mounted only once
 // for worker request  
 
 app.use('/api', require('./routes/hireRoutes')); // mounted only once
+
+
+// for geo-location .
+
+app.use('/api/workers', require('./routes/location'));
+
 // app.use('/api', require('./routes/')); // mounted only once
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);

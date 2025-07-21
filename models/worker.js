@@ -9,6 +9,17 @@ const workerSchema = new mongoose.Schema({
   workertype: String,
   availability: String,
   status: String,
+
+location: {
+    type: { type: String, enum: ['Point'], default: 'Point' },
+    coordinates: {
+      type: [Number], // [longitude, latitude]
+      required: true,
+    },
+  },
+
+
 });
+// workerSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('Worker', workerSchema);
