@@ -20,6 +20,6 @@ location: {
 
 
 });
-// workerSchema.index({ location: '2dsphere' });
+workerSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('Worker', workerSchema);
