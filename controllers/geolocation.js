@@ -13,7 +13,7 @@ exports.geolocation= async (req, res) => {
       location: {
         $near: {
           $geometry: { type: 'Point', coordinates: [parseFloat(lng), parseFloat(lat)] },
-          $maxDistance: 30000, // 10 km
+          $maxDistance: 10000, // 30 km
         },
       },
       ...(category && { category }),
