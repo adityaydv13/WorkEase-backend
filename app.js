@@ -82,6 +82,9 @@ app.use('/api', require('./routes/hireRoutes')); // mounted only once
 
 app.use('/api/workers', require('./routes/location'));
 
+// rating feature
+app.use('/api/ratings', require('./routes/ratingRoutes')); // mounted only once
+ 
 // app.use('/api', require('./routes/')); // mounted only once
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
