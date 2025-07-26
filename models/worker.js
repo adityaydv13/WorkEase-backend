@@ -59,11 +59,23 @@ location: {
     },
   },
 
-   ratings: {
-    totalStars: { type: Number, default: 0 },
-    numberOfRatings: { type: Number, default: 0 },
-    details: [ratingDetailSchema]
-  }
+  //  ratings: {
+  //   totalStars: { type: Number, default: 0 },
+  //   numberOfRatings: { type: Number, default: 0 },
+  //   details: [ratingDetailSchema]
+  // }
+  // models/worker.js
+ratings: {
+  totalStars: { type: Number, default: 0 },
+  numberOfRatings: { type: Number, default: 0 },
+  details: [
+    {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      stars: Number,
+    }
+  ]
+}
+
 
 
 });

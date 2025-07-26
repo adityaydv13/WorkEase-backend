@@ -2,25 +2,59 @@
   const Hire = require('../models/hire');
  
 // Route to search for workers
- exports.searchWorkers = async (req, res) => {
-    const {search}= req.query;
- try {
-    if (!search) {
-        return res.status(400).json({ message: 'Search term is required' });
-    }
-        // Simple search by name  
-        const workers = await Worker.find({
-            workertype: { $regex: search, $options: 'i' } // Case-insensitive search
+//  exports.searchWorkers = async (req, res) => {
+//     const {search}= req.query;
+//  try {
+//     if (!search) {
+//         return res.status(400).json({ message: 'Search term is required' });
+//     }
+//         // Simple search by name  
+//         const workers = await Worker.find({
+//             workertype: { $regex: search, $options: 'i' } // Case-insensitive search
             
-        }); 
+//         }); 
 
          
-        res.json(workers);
-         } catch (error) {
-        console.error('Error searching for workers:', error);
-        res.status(500).json({ message: 'Internal server error' });
+//         res.json(workers);
+//          } catch (error) {
+//         console.error('Error searching for workers:', error);
+//         res.status(500).json({ message: 'Internal server error' });
+//     }
+// }
+exports.searchWorkers = async (req, res) => {
+  const { search } = req.query;
+
+  try {
+    if (!search) {
+      return res.status(400).json({ message: 'Search term is required' });
     }
-}
+
+    // Find matching workers
+    const workers = await Worker.find({
+      workertype: { $regex: search, $options: 'i' }
+    });
+
+    // Add averageRating to each worker object
+    const workersWithRating = workers.map(worker => {
+      const avgRating =
+        worker.ratings.numberOfRatings > 0
+          ? (worker.ratings.totalStars / worker.ratings.numberOfRatings).toFixed(1)
+          : null;
+
+      return {
+        ...worker.toObject(),
+        averageRating: avgRating,
+      };
+    });
+
+    res.json(workersWithRating);
+
+  } catch (error) {
+    console.error('Error searching for workers:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 
  
 exports.hireWorker = async (req, res) => {
