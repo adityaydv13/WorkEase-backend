@@ -91,39 +91,4 @@ exports.getRequestsForWorker = async (req, res) => {
   }
 };
 
-// exports.getRequestsForWorker = async (req, res) => {
-//   try {
-//     // Fetch both pending and accepted requests
-//     const requests = await Hire.find({
-//       workerId: req.params.workerId,
-//       status: { $in: ['pending', 'accepted'] },
-//     }).populate('userId', 'name location phone');
-
-//     // Filter response to hide phone unless status is accepted
-//     const filteredRequests = requests.map((req) => {
-//       const user = {
-//         name: req.userId?.name,
-//         location: req.userId?.location,
-//       };
-
-//       // Include phone only if request is accepted
-//       if (req.status === 'accepted') {
-//         user.phone = req.userId?.phone;
-//       }
-
-//       return {
-//         _id: req._id,
-//         userId: user,
-//         hireDate: req.hireDate,
-//         status: req.status,
-//       };
-//     });
-
-//     res.status(200).json(filteredRequests);
-//   } catch (err) {
-//     console.error("Error fetching requests:", err);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
-
-
+ 
