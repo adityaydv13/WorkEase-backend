@@ -1,26 +1,7 @@
   const Worker = require('../models/worker');
   const Hire = require('../models/hire');
  
-// Route to search for workers
-//  exports.searchWorkers = async (req, res) => {
-//     const {search}= req.query;
-//  try {
-//     if (!search) {
-//         return res.status(400).json({ message: 'Search term is required' });
-//     }
-//         // Simple search by name  
-//         const workers = await Worker.find({
-//             workertype: { $regex: search, $options: 'i' } // Case-insensitive search
-            
-//         }); 
-
-         
-//         res.json(workers);
-//          } catch (error) {
-//         console.error('Error searching for workers:', error);
-//         res.status(500).json({ message: 'Internal server error' });
-//     }
-// }
+ 
 exports.searchWorkers = async (req, res) => {
   const { search } = req.query;
 
@@ -92,45 +73,7 @@ exports.hireWorker = async (req, res) => {
         res.status(500).json({ message: 'Error sending hire request', error: err.message });
     }
 };
-// exports.hireWorker = async (req, res) => {
-//     const { workerId } = req.params;
-//     const userId = req.user?.id;
-
-//     if (!userId) {
-//         return res.status(401).json({ message: 'Unauthorized: User ID missing' });
-//     }
-
-//     try {
-//         const worker = await Worker.findById(workerId);
-//         if (!worker) {
-//             return res.status(404).json({ message: 'Worker not found' });
-//         }
-
-//         // if (worker.availability !== '2') {
-//         //     return res.status(400).json({ message: 'Worker is not available' });
-//         // }
-
-//         worker.status = 'hired';
-//         if (!worker.userId) worker.userId = userId;
-//         await worker.save();
-
-//         const hire = new Hire({
-//             workerId,
-//             status: 'pending',
-//             userId,
-//         });
-
-//         await hire.save();
-
-//         res.status(200).json({ message: 'Worker hired successfully', hire });
-//     } catch (err) {
-//         console.error('Error hiring worker:', err);
-//         res.status(500).json({ message: 'Error hiring worker', error: err.message });
-//     }
-// };
-
-
-
+ 
 
 // Route to delete a hired worker
  
@@ -177,29 +120,6 @@ exports.deleteHiredWorker = async (req, res) => {
 //     res.status(200).json({ message: 'Hired worker deleted successfully' });
 }
 
-
-// In your controller
-
-// Route to get all hire records for a user
-// exports.getUserHires = async (req, res) => {
-
-//  exports.getUserHires = async (req, res) => {
-//   const userId = req.user?.id;
-
-//   if (!userId) {
-//     return res.status(401).json({ message: 'Unauthorized' });
-//   }
-
-//   try {
-//   const hires = await Hire.find({ userId }).populate('workerId').exec();
-// console.log('Hires found:', hires);
-
-//     res.status(200).json({ hires });
-//   } catch (err) {
-//     console.error('Error fetching hires:', err);
-//     res.status(500).json({ message: 'Failed to fetch hire records', error: err.message });
-//   }
-// };
 // Controller: Get all hires by logged-in user
 exports.getUserHires = async (req, res) => {
   const userId = req.user.id;

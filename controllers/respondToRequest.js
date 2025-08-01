@@ -1,41 +1,7 @@
 const Hire = require('../models/hire');
 const Worker = require('../models/worker');
 
-// exports.respondToHireRequest = async (req, res) => {
-//     const { id } = req.params; // hire request ID
-//     const { status } = req.body; // 'accepted' or 'rejected'
-
-//     if (!['accepted', 'rejected'].includes(status)) {
-//         return res.status(400).json({ message: 'Invalid status. Use accepted/rejected.' });
-//     }
-
-//     try {
-//         const hire = await Hire.findById(id);
-//         if (!hire) {
-//             return res.status(404).json({ message: 'Hire request not found' });
-//         }
-
-//         if (hire.status !== 'pending') {
-//             return res.status(400).json({ message: 'Request already responded to.' });
-//         }
-
-//         hire.status = status;
-//         await hire.save();
-
-//         // If accepted, update the worker's status
-//         if (status === 'accepted') {
-//             const worker = await Worker.findById(hire.workerId);
-//             worker.status = 'hired';
-//             // worker.userId = hire.userId;
-//             await worker.save();
-//         }
-
-//         res.status(200).json({ message: `Request ${status}`, hire });
-//     } catch (err) {
-//         console.error('Error responding to hire request:', err);
-//         res.status(500).json({ message: 'Error updating request', error: err.message });
-//     }
-// };
+ 
 exports.respondToHireRequest = async (req, res) => {
     const { id } = req.params; // hire request ID
     const { status } = req.body; // 'accepted' or 'rejected'
